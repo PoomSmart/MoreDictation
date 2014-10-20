@@ -1,6 +1,6 @@
 Package: org.thebigboss.moredictation
 Name: MoreDictation
-Depends: mobilesubstrate, firmware (>= 5.0), gsc.dictation
+Depends: mobilesubstrate, firmware (>= 5.0), firmware (<< 8.0), gsc.dictation
 Version: 1.0
 Architecture: iphoneos-arm
 Description: More languages support for Dictation.

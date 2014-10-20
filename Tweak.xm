@@ -4,6 +4,8 @@
 // iOS 7.0- : NSArray *AFPreferencesSupportedLanguages()
 // iOS 7.1+ : NSArray *AFPreferencesSupportedDictationLanguages()
 
+BOOL doNotAddYet = NO;
+
 NSArray *moreSupportedLanguages()
 {
 	return @[	@"en-IN", // Indian English (maybe Arabic - Saudi Arabia)
@@ -39,6 +41,8 @@ NSArray *(*original_PSPreferencesSupportedDictationLanguages)();
 NSArray *hax_PSPreferencesSupportedDictationLanguages()
 {
 	NSMutableArray *array = [original_PSPreferencesSupportedDictationLanguages() mutableCopy];
+	if (doNotAddYet)
+		return array;
 	for (NSString *language in moreSupportedLanguages()) {
 		if (![array containsObject:language])
 			[array addObject:language];
@@ -46,8 +50,34 @@ NSArray *hax_PSPreferencesSupportedDictationLanguages()
 	return array;
 }
 
+%group preiOS71
+
+%hook AssistantController
+
+// This method will return all languages from AFPreferencesSupportedLanguages() function.
+// But the issue is some languages are not supported by Siri, if the function is hooked.
+// Adding those unsupported is not a good way, as user will not be able to use it.
+// So we just prevent the issue here, by temporary disallowing languages addition.
++ (id)assistantLanguageTitlesDictionary
+{
+	doNotAddYet = YES;
+	id support = %orig;
+	doNotAddYet = NO;
+	return support;
+}
+
+%end
+
+%end
+
 %ctor
 {
+	if (!isiOS71Up) {
+		if ([[[NSBundle mainBundle] bundleIdentifier] isEqualToString:@"com.apple.Preferences"]) {
+			dlopen("/System/Library/PreferenceBundles/Assistant.bundle/Assistant", RTLD_LAZY);
+			%init(preiOS71);
+		}
+	}
 	#define ASSISTANT "/System/Library/PrivateFrameworks/AssistantServices.framework/AssistantServices"
 	void *assistant = dlopen(ASSISTANT, RTLD_LAZY);
 	if (assistant != NULL) {
