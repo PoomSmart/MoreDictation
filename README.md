@@ -1,4 +1,4 @@
-MoreDictatiob
+MoreDictation
 =============
 
 More languages support from iOS 8 for earlier OS Dictation.
