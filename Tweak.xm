@@ -3,12 +3,14 @@
 
 // iOS 7.0- : NSArray *AFPreferencesSupportedLanguages()
 // iOS 7.1+ : NSArray *AFPreferencesSupportedDictationLanguages()
+// iOS 7.1+ : NSArray *_AFPreferencesBuiltInLanguagesDictationSupplement()
 
 BOOL doNotAddYet = NO;
 
 NSArray *moreSupportedLanguages()
 {
 	return @[	@"en-IN", // Indian English (maybe Arabic - Saudi Arabia)
+				@"ar-SA", // Arabic - Saudi Arabia (more)
 				@"nl-NL", // Dutch - The Netherlands
 				@"sv-SE", // Swedish - Sweden
 				@"pt-BR", // Portuguese - Brazil
@@ -82,7 +84,7 @@ NSArray *hax_PSPreferencesSupportedDictationLanguages()
 	void *assistant = dlopen(ASSISTANT, RTLD_LAZY);
 	if (assistant != NULL) {
 		MSImageRef ref = MSGetImageByName(ASSISTANT);
-		const char *function = isiOS71Up ? "_AFPreferencesSupportedDictationLanguages" : "_AFPreferencesSupportedLanguages";
+		const char *function = isiOS71Up ? "__AFPreferencesBuiltInLanguagesDictationSupplement" : "_AFPreferencesSupportedLanguages";
 		PSPreferencesSupportedDictationLanguages = (NSArray *(*)())MSFindSymbol(ref, function);
 		MSHookFunction((void *)PSPreferencesSupportedDictationLanguages, (void *)hax_PSPreferencesSupportedDictationLanguages, (void **)&original_PSPreferencesSupportedDictationLanguages);
 	}
