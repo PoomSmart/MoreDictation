@@ -5,7 +5,6 @@ More languages support from iOS 8 for earlier OS Dictation.
 
 These languages were added:
 
-* en-IN = Indian English (maybe Arabic - Saudi Arabia)
 * nl-NL = Dutch - The Netherlands
 * sv-SE = Swedish - Sweden
 * pt-BR = Portuguese - Brazil

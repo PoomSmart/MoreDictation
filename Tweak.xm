@@ -9,9 +9,7 @@ BOOL doNotAddYet = NO;
 
 NSArray *moreSupportedLanguages()
 {
-	return @[	@"en-IN", // Indian English (maybe Arabic - Saudi Arabia)
-				@"ar-SA", // Arabic - Saudi Arabia (more)
-				@"nl-NL", // Dutch - The Netherlands
+	return @[	@"nl-NL", // Dutch - The Netherlands
 				@"sv-SE", // Swedish - Sweden
 				@"pt-BR", // Portuguese - Brazil
 				@"pt-PT", // Portuguese - Portugal
